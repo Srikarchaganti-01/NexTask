@@ -3,28 +3,47 @@ const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
 // Signup & validation
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    validate: [isEmail, "Please enter a valid email"],
-    lowercase: true,
+const UserSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      trim: true,
+      minlength: [3, "Username must be at least 3 characters"],
+      maxlength: [20, "Username cannot exceed 20 characters"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      validate: [isEmail, "Please enter a valid email"],
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password must not be empty"],
+      minlength: [6, "Password must be atleast 6 characters long"],
+    },
+    role: {
+      required: [true, "Role is required"],
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
-  password: {
-    type: String,
-    required: [true, "Password must not be empty"],
-    minlength: [6, "Password must be atleast 6 characters long"],
-  },
-});
+  { timestamps: true },
+);
 
 UserSchema.pre("save", async function (next) {
-  console.log("Pre Saving in DB");
+  console.log("Pre  : Hashing Pass Before Saving in DB");
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
 });
 
 UserSchema.post("save", async function (doc) {
-  console.log("post Saving to DB");
+  console.log(
+    `Post : User with username ${doc.username} & id ${doc._id} created`,
+  );
 });
 
 // login

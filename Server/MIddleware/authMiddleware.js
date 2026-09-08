@@ -29,7 +29,9 @@ const checkCurrUser = (req, res, next) => {
       } else {
         // console.log(decodedToken);
         let user = await User.findById(decodedToken.id);
-        console.log(`The Current user is with email ${user.email}`);
+        if (user) {
+          console.log(`The Current user is with email ${user.email}`);
+        }
         res.locals.user = user;
         next();
       }

@@ -34,9 +34,9 @@ module.exports.signup_get = (req, res) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password, role } = req.body;
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({ username, email, password, role });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxTime * 1000 });
     res.status(201).send("Account is set up sucessfully ");
