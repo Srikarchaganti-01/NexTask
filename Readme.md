@@ -389,7 +389,7 @@ Ownership Doesn't Match
 - [ ] `/api/auth/me`
 - [ ] Return authenticated user's information
 
-### Phase 7 — Task Model
+### Phase 7 — Task Model ( Next )
 
 - [ ] Create Task schema
 - [ ] Add validation
