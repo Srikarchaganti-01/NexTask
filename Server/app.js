@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const authRoutes = require("./Routes/authRoutes");
 
 // express middleware
 const app = express();
@@ -26,3 +27,4 @@ mongoose
 app.get("/", (req, res) => {
   res.send("NexTask is Up and Running");
 });
+app.use(authRoutes);
