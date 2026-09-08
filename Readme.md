@@ -347,7 +347,7 @@ Ownership Doesn't Match
 
 ## Goal 1 — Backend
 
-### Phase 1 — Backend Foundation
+### Phase 1 — Backend Foundation ( Done )
 
 - [ ] Initialize Node.js
 - [ ] Install dependencies
@@ -355,14 +355,14 @@ Ownership Doesn't Match
 - [ ] Configure Express
 - [ ] Configure environment variables
 
-### Phase 2 — MongoDB & Mongoose
+### Phase 2 — MongoDB & Mongoose ( Done )
 
 - [ ] Connect MongoDB
 - [ ] Configure Mongoose
 - [ ] Create User model
 - [ ] Understand schemas and models
 
-### Phase 3 — Registration
+### Phase 3 — Registration ( Done )
 
 - [ ] Registration API
 - [ ] Validation
