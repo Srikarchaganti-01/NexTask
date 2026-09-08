@@ -41,4 +41,30 @@ const checkCurrUser = (req, res, next) => {
     next();
   }
 };
-module.exports = { requireAuth, checkCurrUser };
+
+const dispCurrUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    jwt.verify(token, "meow", async (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        req.user = null;
+        return next();
+      }
+
+      const user = await User.findById(decodedToken.id);
+
+      if (user) {
+        console.log(`The Current user is with email ${user.email}`);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    req.user = null;
+    next();
+  }
+};
+module.exports = { requireAuth, checkCurrUser, dispCurrUser };

@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
+const userRoutes = require("./Routes/userRoutes");
 const cookieParser = require("cookie-parser");
-const { requireAuth, checkCurrUser } = require("./MIddleware/authMiddleware");
 
 // express middleware
 const app = express();
@@ -29,11 +29,5 @@ mongoose
 
 // Routes
 
-app.use(checkCurrUser);
-app.get("/", (req, res) => {
-  res.send("NexTask is Up and Running");
-});
 app.use(authRoutes);
-app.get("/home", requireAuth, (req, res) => {
-  res.status(200).send("You are authenticated");
-});
+app.use(userRoutes);

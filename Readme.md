@@ -377,14 +377,14 @@ Ownership Doesn't Match
 - [ ] JWT generation
 - [ ] JWT expiration
 
-### Phase 5 — Authentication Middleware
+### Phase 5 — Authentication Middleware ( Done )
 
 - [ ] Extract Bearer token
 - [ ] Verify JWT
 - [ ] Identify authenticated user
 - [ ] Protect routes
 
-### Phase 6 — Current User
+### Phase 6 — Current User ( Done )
 
 - [ ] `/api/auth/me`
 - [ ] Return authenticated user's information
