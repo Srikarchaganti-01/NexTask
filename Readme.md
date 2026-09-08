@@ -370,7 +370,7 @@ Ownership Doesn't Match
 - [ ] Password hashing
 - [ ] Postman testing
 
-### Phase 4 — Login & JWT
+### Phase 4 — Login & JWT ( Done )
 
 - [ ] Login API
 - [ ] Password comparison

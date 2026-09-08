@@ -1,12 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
+const cookieParser = require("cookie-parser");
+const { requireAuth, checkCurrUser } = require("./MIddleware/authMiddleware");
 
 // express middleware
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
-// view enjine
+//view engine
 app.set("view engine", "ejs");
 
 // DB connection
@@ -24,7 +27,13 @@ mongoose
     console.log("Connection Error with Mongo :", err);
   });
 
+// Routes
+
+app.use(checkCurrUser);
 app.get("/", (req, res) => {
   res.send("NexTask is Up and Running");
 });
 app.use(authRoutes);
+app.get("/home", requireAuth, (req, res) => {
+  res.status(200).send("You are authenticated");
+});
