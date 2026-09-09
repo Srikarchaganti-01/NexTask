@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
@@ -13,13 +15,13 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 
 // DB connection
-const dbURI = "mongodb://127.0.0.1:27017/NexTask";
+const dbURI = process.env.MONGO_URI;
 
 mongoose
   .connect(dbURI)
   .then(() => {
     console.log("MongoDB Compass (local) is connected Sucessfully");
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Server Up and Running live on Port 3000");
     });
   })
