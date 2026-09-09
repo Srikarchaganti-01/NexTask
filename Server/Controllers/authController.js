@@ -1,9 +1,12 @@
 const User = require("../Models/User");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const JWT_secret_code = process.env.JWT_SECRET;
 
 const maxTime = 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, "meow", {
+  return jwt.sign({ id }, JWT_secret_code, {
     expiresIn: maxTime,
   });
 };

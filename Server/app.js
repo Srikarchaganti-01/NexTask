@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
 const userRoutes = require("./Routes/userRoutes");
+const taskRoutes = require("./Routes/taskRoutes");
 const cookieParser = require("cookie-parser");
 
 // express middleware
@@ -30,6 +31,6 @@ mongoose
   });
 
 // Routes
-
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(taskRoutes);

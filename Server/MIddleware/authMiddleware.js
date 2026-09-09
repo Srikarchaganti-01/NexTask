@@ -1,10 +1,13 @@
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
+require("dotenv").config();
+
+const JWT_secret_code = process.env.JWT_SECRET;
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "meow", (err, decodedToken) => {
+    jwt.verify(token, JWT_secret_code, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.redirect("/login");
@@ -21,7 +24,7 @@ const requireAuth = (req, res, next) => {
 const checkCurrUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "meow", async (err, decodedToken) => {
+    jwt.verify(token, JWT_secret_code, async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.locals.user = null;
@@ -46,7 +49,7 @@ const dispCurrUser = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, "meow", async (err, decodedToken) => {
+    jwt.verify(token, JWT_secret_code, async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         req.user = null;
