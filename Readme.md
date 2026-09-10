@@ -389,14 +389,14 @@ Ownership Doesn't Match
 - [ ] `/api/auth/me`
 - [ ] Return authenticated user's information
 
-### Phase 7 — Task Model ( Next )
+### Phase 7 — Task Model ( Done )
 
 - [ ] Create Task schema
 - [ ] Add validation
 - [ ] Add user relationship
 - [ ] Add timestamps
 
-### Phase 8 — Task CRUD
+### Phase 8 — Task CRUD ( Next )
 
 - [ ] Create task
 - [ ] Get tasks
