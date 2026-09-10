@@ -67,7 +67,7 @@ module.exports.login_post = async (req, res) => {
 };
 
 module.exports.logout_get = async (req, res) => {
-  res.cookie("jwt", "Hell Yeah", { maxAge: 3000 });
+  res.cookie("jwt", "Getlost_bitch", { maxAge: 3000 });
   console.log("User Logging out");
   res.status(205).redirect("/");
 };

@@ -24,7 +24,7 @@ const TaskSchema = new mongoose.Schema(
     },
     access: {
       type: String,
-      enum: ["all", "self", "top_ord", "level_ord", "low_ord"],
+      enum: ["all", "self", "top_ord", "level_ord", "low_ord", "user", "admin"],
       default: "all",
     },
     deadline: {
