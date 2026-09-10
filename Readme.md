@@ -420,9 +420,9 @@ Ownership Doesn't Match
 ### Phase 11 — Search, Filter & Sort
 
 - [ ] Search
-- [ ] Priority filtering (Done)
-- [ ] Category filtering (Done)
-- [ ] Completion filtering (Done)
+- [ ] priority filtering (Done)
+- [ ] access filtering (Done)
+- [ ] status filtering (Done)
 - [ ] Sorting
 
 ### Phase 12 — Pagination ( Skip )
