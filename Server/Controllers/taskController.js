@@ -52,20 +52,24 @@ module.exports.read_get = async (req, res) => {
   const role = user.role;
 
   const filter = {};
+
   if (req.query.priority) {
     filter.priority = req.query.priority;
   }
   if (req.query.status) {
     filter.status = req.query.status;
   }
-  let accessRules = [{ access: "all" }, { access: "self", user: userid }];
-  if (req.query.access) {
-    accessRules.push({ access: req.query.access });
+  if (req.query.category) {
+    filter.category = req.query.category;
   }
 
-  console.log(`Request received user id ${userid}`);
+  let accessRules;
 
-  try {
+  if (req.query.access) {
+    accessRules = [{ access: req.query.access }];
+  } else {
+    accessRules = [{ access: "all" }, { access: "self", user: userid }];
+
     if (role === "user") {
       accessRules.push({ access: "user" });
     }
@@ -73,7 +77,10 @@ module.exports.read_get = async (req, res) => {
     if (role === "admin") {
       accessRules.push({ access: "admin" });
     }
+  }
+  console.log(`Request received user id ${userid}`);
 
+  try {
     const tasks = await Task.find({
       ...filter,
       $or: accessRules,
