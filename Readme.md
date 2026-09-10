@@ -396,7 +396,7 @@ Ownership Doesn't Match
 - [ ] Add user relationship
 - [ ] Add timestamps
 
-### Phase 8 — Task CRUD ( Next )
+### Phase 8 — Task CRUD ( Done )
 
 - [ ] Create task
 - [ ] Get tasks
@@ -404,14 +404,14 @@ Ownership Doesn't Match
 - [ ] Update task
 - [ ] Delete task
 
-### Phase 9 — Authorization
+### Phase 9 — Authorization ( Done )
 
 - [ ] Verify task ownership
 - [ ] Prevent unauthorized access
 - [ ] Prevent unauthorized updates
 - [ ] Prevent unauthorized deletion
 
-### Phase 10 — Completion
+### Phase 10 — Completion ( Later )
 
 - [ ] Complete task
 - [ ] Reopen task
@@ -420,12 +420,12 @@ Ownership Doesn't Match
 ### Phase 11 — Search, Filter & Sort
 
 - [ ] Search
-- [ ] Priority filtering
-- [ ] Category filtering
-- [ ] Completion filtering
+- [ ] Priority filtering (Done)
+- [ ] Category filtering (Done)
+- [ ] Completion filtering (Done)
 - [ ] Sorting
 
-### Phase 12 — Pagination
+### Phase 12 — Pagination ( Skip )
 
 - [ ] Page
 - [ ] Limit

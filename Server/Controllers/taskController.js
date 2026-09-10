@@ -51,11 +51,21 @@ module.exports.read_get = async (req, res) => {
   const userid = user._id;
   const role = user.role;
 
-  console.log(`Request received with user id ${userid}`);
+  const filter = {};
+  if (req.query.priority) {
+    filter.priority = req.query.priority;
+  }
+  if (req.query.status) {
+    filter.status = req.query.status;
+  }
+  let accessRules = [{ access: "all" }, { access: "self", user: userid }];
+  if (req.query.access) {
+    accessRules.push({ access: req.query.access });
+  }
+
+  console.log(`Request received user id ${userid}`);
 
   try {
-    const accessRules = [{ access: "all" }, { access: "self", user: userid }];
-
     if (role === "user") {
       accessRules.push({ access: "user" });
     }
@@ -65,6 +75,7 @@ module.exports.read_get = async (req, res) => {
     }
 
     const tasks = await Task.find({
+      ...filter,
       $or: accessRules,
     });
 
