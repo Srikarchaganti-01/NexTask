@@ -525,7 +525,7 @@ After the backend is complete, the React frontend will be added.
 - [ ] Completed tasks
 - [ ] Overdue tasks
 
-### Phase 6 — Calendar
+### Phase 6 — Calendar ( version 2.0 )
 
 - [ ] Monthly calendar
 - [ ] Deadline indicators
