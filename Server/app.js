@@ -7,17 +7,11 @@ const userRoutes = require("./Routes/userRoutes");
 const taskRoutes = require("./Routes/taskRoutes");
 const cookieParser = require("cookie-parser");
 
-// express middleware
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-//view engine
-app.set("view engine", "ejs");
-
-// DB connection
 const dbURI = process.env.MONGO_URI;
-
 mongoose
   .connect(dbURI)
   .then(() => {
@@ -30,7 +24,10 @@ mongoose
     console.log("Connection Error with Mongo :", err);
   });
 
-// Routes
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(taskRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});

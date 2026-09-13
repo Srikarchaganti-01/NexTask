@@ -446,7 +446,7 @@ Ownership Doesn't Match
 - [ ] Completion dates
 - [ ] Calendar API/data logic
 
-### Phase 15 — Error Handling
+### Phase 15 — Error Handling ( Done )
 
 - [ ] Validation errors
 - [ ] Authentication errors
@@ -454,15 +454,15 @@ Ownership Doesn't Match
 - [ ] Not-found errors
 - [ ] Server errors
 
-### Phase 16 — Security & Cleanup
+### Phase 16 — Security & Cleanup ( Done )
 
 - [ ] Protect environment variables
 - [ ] Secure password handling
 - [ ] Validate requests
-- [ ] Configure CORS
+- [ ] Configure CORS ??
 - [ ] Clean MVC structure
 
-### Phase 17 — Complete Postman Testing
+### Phase 17 — Complete Postman Testing ( Done )
 
 - [ ] Test authentication
 - [ ] Test CRUD
