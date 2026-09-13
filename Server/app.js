@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
@@ -23,6 +23,13 @@ mongoose
   .catch((err) => {
     console.log("Connection Error with Mongo :", err);
   });
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 app.use(authRoutes);
 app.use(userRoutes);
