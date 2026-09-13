@@ -63,20 +63,14 @@ module.exports.read_get = async (req, res) => {
     filter.category = req.query.category;
   }
 
-  let accessRules;
+  let accessRules = [{ access: "all" }, { access: "self", user: userid }];
 
-  if (req.query.access) {
-    accessRules = [{ access: req.query.access }];
-  } else {
-    accessRules = [{ access: "all" }, { access: "self", user: userid }];
+  if (role === "user") {
+    accessRules.push({ access: "user" });
+  }
 
-    if (role === "user") {
-      accessRules.push({ access: "user" });
-    }
-
-    if (role === "admin") {
-      accessRules.push({ access: "admin" });
-    }
+  if (role === "admin") {
+    accessRules.push({ access: "admin" });
   }
   console.log(`Request received user id ${userid}`);
 

@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/tasks", dispCurrUser, taskController.create_post);
 
-router.get("/tasks", dispCurrUser, taskController.read_get);
+router.get("/tasks", requireAuth, dispCurrUser, taskController.read_get);
 
 router.get("/tasks/:id", requireAuth, taskController.read_one_get);
 
