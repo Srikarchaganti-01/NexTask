@@ -432,7 +432,7 @@ Ownership Doesn't Match
 - [ ] Skip
 - [ ] Total pages
 
-### Phase 13 — Dashboard API
+### Phase 13 — Dashboard API ( Done )
 
 - [ ] Task statistics
 - [ ] Completed count
@@ -440,7 +440,7 @@ Ownership Doesn't Match
 - [ ] Overdue count
 - [ ] Recently added tasks
 
-### Phase 14 — Calendar Data
+### Phase 14 — Calendar Data ( version 2 )
 
 - [ ] Deadline dates
 - [ ] Completion dates

@@ -63,6 +63,14 @@ module.exports.read_get = async (req, res) => {
     filter.category = req.query.category;
   }
 
+  let sortOption = {};
+
+  if (req.query.sort === "nto") {
+    sortOption = { createdAt: -1 };
+  } else {
+    sortOption = { createdAt: 1 };
+  }
+
   let accessRules = [{ access: "all" }, { access: "self", user: userid }];
 
   if (role === "user") {
@@ -78,7 +86,7 @@ module.exports.read_get = async (req, res) => {
     const tasks = await Task.find({
       ...filter,
       $or: accessRules,
-    });
+    }).sort(sortOption);
 
     res.status(200).json({ tasks });
   } catch (err) {
