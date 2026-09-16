@@ -42,7 +42,7 @@ module.exports.signup_post = async (req, res) => {
     const user = await User.create({ username, email, password, role });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxTime * 1000 });
-    res.status(201).send("Account is set up sucessfully ");
+    res.status(201).json({ msg: "Account is set up sucessfully " });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(401).json({ errors });
@@ -59,7 +59,7 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxTime * 1000 });
-    res.status(200).send("Logged in Sucessfully");
+    res.status(200).json({ msg: "Logged in Sucessfully" });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(401).json({ errors });
