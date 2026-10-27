@@ -44,7 +44,7 @@ const Login = () => {
         return;
       }
 
-      window.location.href = "/home";
+      window.location.href = "/Home";
     } catch (err) {
       setErrors({
         general: "Unable to connect to the server.",

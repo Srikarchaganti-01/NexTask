@@ -58,7 +58,11 @@ const dispCurrUser = (req, res, next) => {
 
       const user = await User.findById(decodedToken.id);
 
-      if (user) {
+      if (!user) {
+        return res.status(401).json({
+          auth: "User not found. Please login again",
+        });
+      } else if (user) {
         console.log(`The Current user is with email ${user.email}`);
       }
 

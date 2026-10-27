@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Signup, Login, Landing, Home, Tasks, ViewTask, Update } from "./Pages";
+import {
+  Signup,
+  Login,
+  Landing,
+  Home,
+  Tasks,
+  ViewTask,
+  Update,
+  AddTask,
+} from "./Pages";
 function App() {
   return (
     <>
@@ -9,6 +18,11 @@ function App() {
           <Route path="/" element={<Landing />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/home" element={<Home />}></Route>
+          <Route path="/tasks" element={<Tasks />}></Route>
+          <Route path="/tasks/:id" element={<ViewTask />}></Route>
+          <Route path="/addtask" element={<AddTask />} />
+          <Route path="/tasks/:id/update" element={<Update />} />
         </Routes>
       </BrowserRouter>
     </>

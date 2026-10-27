@@ -1,4 +1,5 @@
 const Task = require("../Models/Task");
+require("../Models/User");
 
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -10,6 +11,8 @@ const handleErrors = (err) => {
     access: "",
     deadline: "",
     status: "",
+    auth: "",
+    delmsg: "",
   };
 
   if (err.message.includes("validation failed")) {
@@ -18,15 +21,35 @@ const handleErrors = (err) => {
     });
   }
 
+  if (err.message.includes("jwt expired")) {
+    errors.auth = "The Session is expired Login to continue";
+    return errors;
+  }
+
+  if (err.message.includes("jwt malformed")) {
+    errors.auth = "The User is logged out so get the hell out bitch";
+    return errors;
+  }
+
+  if (err.message.includes("Cannot read properties of null (reading '_id')")) {
+    errors.auth = "Bitch you are logged out ";
+    return errors;
+  }
+
+  if (err.message.includes("You are not authorised or No such task Exists")) {
+    errors.delmsg = "You are not authorised or No such task Exists";
+    return errors;
+  }
   return errors;
 };
 
 module.exports.create_post = async (req, res) => {
   const { title, description, priority, category, access, deadline, status } =
     req.body;
-  const user = req.user;
-  const userid = user._id;
+
   try {
+    const user = req.user;
+    const userid = user._id;
     const task = await Task.create({
       title,
       description,
@@ -37,9 +60,9 @@ module.exports.create_post = async (req, res) => {
       status,
       user: userid,
     });
-    res
-      .status(201)
-      .send(`Task with title '${title}' is saved by user with id ${userid}`);
+    res.status(201).json({
+      message: `Task with title '${title}' is saved`,
+    });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -63,7 +86,7 @@ module.exports.read_get = async (req, res) => {
     filter.category = req.query.category;
   }
 
-  let sortOption = {};
+  let sortOption = 1;
 
   if (req.query.sort === "nto") {
     sortOption = { createdAt: -1 };
@@ -95,18 +118,35 @@ module.exports.read_get = async (req, res) => {
   }
 };
 
+// module.exports.read_one_get = async (req, res) => {
+//   const task_id = req.params.id;
+
+//   console.log(`Task id : ${task_id}`);
+
+//   try {
+//     const task = await Task.findOne({ _id: task_id });
+//     if (!task) res.status(404).send("No such task Exists in Db");
+//     else res.status(200).json({ task });
+//   } catch (err) {
+//     const errors = handleErrors(err);
+//     res.status(400).json({ errors });
+//   }
+// };
+
 module.exports.read_one_get = async (req, res) => {
-  const task_id = req.params.id;
-
-  console.log(`Task id : ${task_id}`);
-
   try {
-    const task = await Task.findOne({ _id: task_id });
-    if (!task) res.status(404).send("No such task Exists in Db");
-    else res.status(200).json({ task });
+    const task = await Task.findById(req.params.id).populate(
+      "user",
+      "username",
+    );
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.status(200).json({ task });
   } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -157,7 +197,9 @@ module.exports.delete_get = async (req, res) => {
   try {
     const task = await Task.findOneAndDelete({ user: userid, _id: task_id });
     if (!task) {
-      res.status(404).send("You are not authorised or No such task Exists ");
+      res
+        .status(404)
+        .json({ msg: "You are not authorised or No such task Exists " });
     } else
       res
         .status(200)

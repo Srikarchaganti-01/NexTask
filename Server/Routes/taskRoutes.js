@@ -4,7 +4,7 @@ const { dispCurrUser, requireAuth } = require("../MIddleware/authMiddleware");
 
 const router = Router();
 
-router.post("/tasks", dispCurrUser, taskController.create_post);
+router.post("/addtask", dispCurrUser, taskController.create_post);
 
 router.get("/tasks", requireAuth, dispCurrUser, taskController.read_get);
 
