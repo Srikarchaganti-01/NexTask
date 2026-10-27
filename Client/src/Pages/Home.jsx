@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 import UserOverview from "../Components/UserOverview";
 import TaskPreview from "../Components/TaskPreview";
 import { all_tasks, home_get } from "../API/Api";
@@ -58,6 +59,8 @@ function Home() {
 
           <TaskPreview tasks={tasks} />
         </main>
+
+        <Footer />
       </div>
     </div>
   );

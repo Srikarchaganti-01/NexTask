@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SmallTaskCard from "./../Components/SmallTaskCard";
 import { getTasks } from "../API/Api";
+
+import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 
 export default function Tasks() {
@@ -173,6 +175,7 @@ export default function Tasks() {
           </div>
         )}
       </div>
+      <Footer />
     </main>
   );
 }

@@ -141,3 +141,24 @@ export const getTaskById = async (id) => {
 
   return data.task || data;
 };
+
+export const updateTask = async (id, taskData) => {
+  const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(taskData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || data.errors?.message || "Failed to update task",
+    );
+  }
+
+  return data;
+};
