@@ -114,7 +114,7 @@ function ViewTask() {
           <div>
             <p
               onClick={() => navigate(`/home`)}
-              className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-400"
+              className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-400 cursor-pointer hover:text-gray-950"
             >
               🏠︎ NexTask workspace
             </p>

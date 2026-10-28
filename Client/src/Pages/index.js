@@ -6,4 +6,15 @@ import Tasks from "./Tasks";
 import Update from "./Update";
 import ViewTask from "./ViewTask";
 import AddTask from "./AddTask";
-export { Signup, Login, Landing, Home, Tasks, AddTask, Update, ViewTask };
+import VerifyEmail from "./VerifyEmail";
+export {
+  Signup,
+  Login,
+  Landing,
+  Home,
+  Tasks,
+  AddTask,
+  Update,
+  ViewTask,
+  VerifyEmail,
+};

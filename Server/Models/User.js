@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
-// Signup & validation
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -30,12 +29,31 @@ const UserSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationTokenHash: {
+      type: String,
+    },
+    verificationTokenExpiry: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );
 
-UserSchema.pre("save", async function (next) {
-  console.log("Pre  : Hashing Pass Before Saving in DB");
+// UserSchema.pre("save", async function (next) {
+//   console.log("Pre  : Hashing Pass Before Saving in DB");
+//   const salt = await bcrypt.genSalt();
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
+UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) {
+    return;
+  }
+  console.log("Pre : Hashing Pass Before Saving in DB");
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -46,7 +64,6 @@ UserSchema.post("save", async function (doc) {
   );
 });
 
-// login
 UserSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {

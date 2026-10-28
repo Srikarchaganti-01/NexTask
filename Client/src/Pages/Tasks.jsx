@@ -61,7 +61,7 @@ export default function Tasks() {
           <div>
             <p
               onClick={() => navigate(`/home`)}
-              className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-gray-500  hover:text-gray-950 "
+              className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-gray-500  hover:text-gray-950 cursor-pointer"
             >
               🏠︎ NexTask / Workspace
             </p>
@@ -121,7 +121,7 @@ export default function Tasks() {
           >
             <option value="">All categories</option>
             <option value="self">Self</option>
-            <option value="assigned_to">Assigned to</option>
+            <option value="assigned_to">Assigned</option>
           </select>
 
           <select

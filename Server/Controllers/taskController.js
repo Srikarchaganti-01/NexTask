@@ -179,7 +179,7 @@ module.exports.update_post = async (req, res) => {
     if (!task) {
       return res.status(404).json({
         message:
-          "You are not Allowed to Update this Task Contack Admin / The Task does not EXIST",
+          "You are not Allowed to Update this Task Contack Author / The Task does not EXIST",
       });
     }
     res.status(200).json({ task });
@@ -202,11 +202,9 @@ module.exports.delete_get = async (req, res) => {
         .status(404)
         .json({ msg: "You are not authorised or No such task Exists " });
     } else
-      res
-        .status(200)
-        .send(
-          `The task with id : ${task._id} with title: ${task.title} is deleted`,
-        );
+      res.status(200).json({
+        message: `The task with id : ${task._id} with title: ${task.title} is deleted`,
+      });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });

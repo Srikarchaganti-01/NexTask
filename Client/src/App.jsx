@@ -9,6 +9,7 @@ import {
   ViewTask,
   Update,
   AddTask,
+  VerifyEmail,
 } from "./Pages";
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/tasks/:id" element={<ViewTask />}></Route>
           <Route path="/addtask" element={<AddTask />} />
           <Route path="/tasks/:id/update" element={<Update />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>
     </>

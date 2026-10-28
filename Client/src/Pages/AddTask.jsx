@@ -56,7 +56,7 @@ function AddTask() {
           <div>
             <p
               onClick={() => navigate(`/home`)}
-              className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-400"
+              className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-400 hover:text-gray-950 cursor-pointer"
             >
               🏠︎ NexTask workspace
             </p>
