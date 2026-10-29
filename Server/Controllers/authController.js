@@ -183,6 +183,8 @@ module.exports.login_post = async (req, res) => {
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: maxTime * 1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     res.status(200).json({ msg: "Logged in Successfully" });
   } catch (err) {
@@ -236,9 +238,12 @@ module.exports.verifyEmail = async (req, res) => {
 
 module.exports.logout_get = async (req, res) => {
   res.cookie("jwt", "", {
-    maxAge: 0,
     httpOnly: true,
+    maxAge: 0,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
+
   console.log("User Logging out");
   res.status(205).send();
 };
