@@ -12,24 +12,27 @@ app.use(express.json());
 app.use(cookieParser());
 
 const dbURI = process.env.MONGO_URI;
-mongoose
-  .connect(dbURI)
-  .then(() => {
-    console.log("MongoDB Atlas (Cloud) is connected Sucessfully");
-    app.listen(process.env.PORT, () => {
-      console.log("Server Up and Running live on Port 3000");
-    });
-  })
-  .catch((err) => {
-    console.log("Connection Error with Mongo :", err);
-  });
+const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   }),
 );
+
+mongoose
+  .connect(dbURI)
+  .then(() => {
+    console.log("MongoDB Atlas connected successfully");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection failed:", err);
+  });
 
 app.use(authRoutes);
 app.use(userRoutes);
