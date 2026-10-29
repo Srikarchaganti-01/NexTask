@@ -69,9 +69,8 @@ module.exports.signup_post = async (req, res) => {
         isUsed: false,
       },
       { $set: { isUsed: true } },
-      { new: true },
+      { returnDocument: "after" },
     );
-
     if (!credential) {
       return res.status(403).json({
         errors: {
