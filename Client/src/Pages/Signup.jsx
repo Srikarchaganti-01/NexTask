@@ -3,12 +3,12 @@ import { signup } from "../API/Api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
+    employeeId: "",
+    organisationId: "",
     username: "",
     email: "",
     password: "",
-    role: "user",
   });
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -75,6 +75,33 @@ const Signup = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="text-sm font-medium">Employee ID</label>
+              <input
+                type="text"
+                name="employeeId"
+                value={formData.employeeId}
+                onChange={handleChange}
+                disabled={loading}
+                required
+                placeholder="Enter your employee ID"
+                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3.5 text-sm outline-none focus:border-black"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Organisation ID</label>
+              <input
+                type="text"
+                name="organisationId"
+                value={formData.organisationId}
+                onChange={handleChange}
+                disabled={loading}
+                required
+                placeholder="Enter your organisation ID"
+                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3.5 text-sm outline-none focus:border-black"
+              />
+            </div>
             <div>
               <label className="text-sm font-medium">Username</label>
 
@@ -156,21 +183,6 @@ const Signup = () => {
               {errors.password && (
                 <p className="mt-2 text-xs text-red-500">{errors.password}</p>
               )}
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Role</label>
-
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                disabled={loading}
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3.5 text-sm outline-none focus:border-black disabled:opacity-50"
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
             </div>
 
             {errors.general && (

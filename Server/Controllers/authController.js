@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const sendEmail = require("../Utils/SendEmail");
 const verificationEmail = require("../Utils/verificationEmail");
 const JWT_secret_code = process.env.JWT_SECRET;
-
+const Credentials = require("../Models/Credentials");
 const maxTime = 60 * 60;
 const createToken = (id) => {
   return jwt.sign({ id }, JWT_secret_code, {
@@ -39,9 +39,49 @@ module.exports.signup_get = (req, res) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password, employeeId, organisationId } = req.body;
+
+  let credential = null;
+  let userCreated = false;
 
   try {
+    const normalizedEmail = email?.trim().toLowerCase();
+
+    // Validate required fields
+    if (
+      !username?.trim() ||
+      !password ||
+      !employeeId?.trim() ||
+      !organisationId?.trim() ||
+      !normalizedEmail
+    ) {
+      return res.status(400).json({
+        errors: { general: "Please fill in all required fields." },
+      });
+    }
+
+    // Claim an authorised credential atomically
+    credential = await Credentials.findOneAndUpdate(
+      {
+        employeeId: employeeId.trim(),
+        organisationId: organisationId.trim(),
+        email: normalizedEmail,
+        isUsed: false,
+      },
+      { $set: { isUsed: true } },
+      { new: true },
+    );
+
+    if (!credential) {
+      return res.status(403).json({
+        errors: {
+          general:
+            "Your employee credentials are invalid or have already been used.",
+        },
+      });
+    }
+
+    // Generate email verification token
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const verificationTokenHash = crypto
@@ -52,31 +92,64 @@ module.exports.signup_post = async (req, res) => {
     const verificationTokenExpiry = Date.now() + 15 * 60 * 1000;
 
     const user = await User.create({
-      username,
-      email,
+      username: username.trim(),
+      email: normalizedEmail,
       password,
-      role,
+      role: credential.role,
       isVerified: false,
       verificationTokenHash,
       verificationTokenExpiry,
     });
 
+    userCreated = true;
+
+    await Credentials.updateOne(
+      { _id: credential._id },
+      { $set: { userId: user._id } },
+    );
+
     const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}`;
 
     await sendEmail(
-      email,
+      normalizedEmail,
       "Verify your NexTask account",
       verificationEmail(verificationLink),
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       msg: "Account created. Please check your email to verify your account.",
     });
   } catch (err) {
+    console.error("Signup error:", err);
+
+    // Release the credential only if user creation failed
+    if (credential && !userCreated) {
+      await Credentials.updateOne(
+        { _id: credential._id },
+        { $set: { isUsed: false } },
+      ).catch(console.error);
+    }
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        errors: { general: "An account with these details already exists." },
+      });
+    }
+
+    if (userCreated) {
+      return res.status(500).json({
+        errors: {
+          general:
+            "Your account was created, but verification email delivery failed. Please contact support.",
+        },
+      });
+    }
+
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    return res.status(400).json({ errors });
   }
 };
+
 module.exports.login_get = (req, res) => {
   res.status(200).send("login Page");
 };
