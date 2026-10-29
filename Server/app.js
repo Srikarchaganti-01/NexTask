@@ -14,15 +14,19 @@ app.use(cookieParser());
 const dbURI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "https://nex-task-sigma.vercel.app",
+  "https://nex-task-kcj2kbaz1-srikarchaganti-01s-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://nex-task-sigma.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-
 mongoose
   .connect(dbURI)
   .then(() => {
