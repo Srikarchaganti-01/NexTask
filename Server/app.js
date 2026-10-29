@@ -15,7 +15,7 @@ const dbURI = process.env.MONGO_URI;
 mongoose
   .connect(dbURI)
   .then(() => {
-    console.log("MongoDB Compass (local) is connected Sucessfully");
+    console.log("MongoDB Atlas (Cloud) is connected Sucessfully");
     app.listen(process.env.PORT, () => {
       console.log("Server Up and Running live on Port 3000");
     });
