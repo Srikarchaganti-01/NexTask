@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function VerifyEmail() {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("loading");
@@ -19,9 +21,7 @@ function VerifyEmail() {
       return;
     }
 
-    fetch(
-      `http://localhost:3000/verify-email?token=${encodeURIComponent(token)}`,
-    )
+    fetch(`${API_URL}/verify-email?token=${encodeURIComponent(token)}`)
       .then(async (res) => {
         const data = await res.json();
 
@@ -33,6 +33,7 @@ function VerifyEmail() {
         setMessage(data.msg || "Your email has been verified successfully.");
       })
       .catch((err) => {
+        console.error("Verification error:", err);
         setStatus("error");
         setMessage(err.message || "Something went wrong. Please try again.");
       });
@@ -45,7 +46,7 @@ function VerifyEmail() {
           NexTask
         </Link>
 
-        <h1 className="text-2xl mt-6 font-bold tracking-tight">
+        <h1 className="mt-6 text-2xl font-bold tracking-tight">
           {status === "loading" && "Verifying your email"}
           {status === "success" && "You're all set!"}
           {status === "error" && "Verification failed"}
@@ -53,22 +54,12 @@ function VerifyEmail() {
 
         <p className="mt-3 text-sm leading-6 text-zinc-500">{message}</p>
 
-        {status === "success" && (
+        {(status === "success" || status === "error") && (
           <Link
             to="/login"
             className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-zinc-900 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-zinc-700"
           >
-            Continue to Login
-            <span className="ml-2">&rarr;</span>
-          </Link>
-        )}
-
-        {status === "error" && (
-          <Link
-            to="/login"
-            className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-zinc-900 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-zinc-700"
-          >
-            Back to Login
+            {status === "success" ? "Continue to Login" : "Back to Login"}
           </Link>
         )}
 
