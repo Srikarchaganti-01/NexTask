@@ -1,13 +1,20 @@
-const transporter = require("../Config/Email");
+const resend = require("../Config/Email");
 
 async function sendEmail(to, subject, html) {
   try {
-    return await transporter.sendMail({
-      from: `"NexTask" <${process.env.EMAIL_USER}>`,
-      to,
+    const { data, error } = await resend.emails.send({
+      from: "NexTask <onboarding@resend.dev>",
+      to: [to],
       subject,
       html,
     });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log("Email sent successfully:", data.id);
+    return data;
   } catch (error) {
     console.error("Email delivery failed:", error.message);
     throw error;
