@@ -3,7 +3,7 @@ const resend = require("../Config/Email");
 async function sendEmail(to, subject, html) {
   try {
     const { data, error } = await resend.emails.send({
-      from: "NexTask <onboarding@resend.dev>",
+      from: "NexTask <onboarding@nextask.space>",
       to: [to],
       subject,
       html,
