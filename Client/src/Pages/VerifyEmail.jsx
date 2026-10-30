@@ -48,7 +48,6 @@ function VerifyEmail() {
         <h1 className="text-2xl mt-6 font-bold tracking-tight">
           {status === "loading" && "Verifying your email"}
           {status === "success" && "You're all set!"}
-          {status === "error" && "Verification failed"}
         </h1>
 
         <p className="mt-3 text-sm leading-6 text-zinc-500">{message}</p>
