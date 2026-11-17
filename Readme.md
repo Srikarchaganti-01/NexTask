@@ -1,610 +1,406 @@
 # Task Management System
 
-A full-stack Task Management application where users can create accounts, securely log in, and manage their personal tasks.
+A full-stack Task Management application built with the **MERN stack**, allowing users to securely manage their personal tasks through a REST API and an interactive React interface.
 
-The project is being built with a **backend-first approach** to understand and implement real-world backend concepts before integrating the React frontend.
+The project follows a **backend-first development approach**, focusing on understanding real-world backend concepts such as MVC architecture, JWT authentication, authorization, database operations, and REST API development before integrating the frontend.
 
 ---
 
-## Project Goals
+## Demo Credentials
 
-- Build a complete REST API using Node.js and Express.js
-- Learn and implement MVC architecture
-- Work with MongoDB and Mongoose
-- Implement secure authentication using JWT and bcrypt
-- Implement user-specific authorization
-- Build complete CRUD functionality
-- Implement search, filtering, sorting, and pagination
-- Build dashboard statistics
-- Create a simple task deadline/completion calendar
-- Integrate the backend with a React frontend
+Use the following credentials to explore the application:
+
+| Account | Email | Password |
+|---|---|---|
+| Admin | `admin@gmail.com` | `test123` |
+| User | `user1@gmail.com` | `test123` |
+
+> **Note:** These are demonstration credentials. Do not use them for real accounts or sensitive information.
 
 ---
 
 ## Tech Stack
 
-### Frontend
-
-- React
-- Vite
-
-### Backend
-
-- Node.js
-- Express.js
-
-### Database
-
-- MongoDB
-- Mongoose
-
-### Authentication & Security
-
-- JSON Web Tokens (JWT)
-- bcrypt
-
-### Testing
-
-- Postman
-
-### Architecture
-
-- MVC
-- REST API
+| Category | Technologies |
+|---|---|
+| Frontend | React, Vite |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT, bcrypt |
+| API Testing | Postman |
+| Architecture | MVC, REST API |
 
 ---
 
-# Features
+## Features
 
-## Authentication
+### Authentication & Security
+- User registration and login
+- JWT-based authentication
+- Password hashing using bcrypt
+- Protected routes using authentication middleware
+- Current authenticated user information
+- User-specific authorization
+- Secure password handling
 
-- User registration
-- User login
-- JWT authentication
-- Get current user
-- Password hashing
-- Authentication middleware
-- User authorization
-
-## Task Management
-
-- Create tasks
-- View all tasks
-- View a single task
-- Update tasks
-- Delete tasks
-- Mark tasks as completed
-- Reopen completed tasks
-- Task priority
-- Task deadlines
+### Task Management
+- Create, view, update, and delete tasks
+- View individual task details
+- Task completion and reopening
+- Task priority levels
 - Task categories
+- Task deadlines
 
-### Priority Levels
-
-- Low
-- Medium
-- High
-
-## Task Organization
-
+### Task Organization
 - Search tasks
-- Filter tasks
+- Filter by priority
+- Filter by completion status
 - Sort tasks
-- Pagination
+- Pagination (planned / skipped in current version)
 
-## Dashboard
-
-The dashboard will provide:
-
+### Dashboard
 - Total tasks
 - Completed tasks
 - Pending tasks
 - Overdue tasks
 - Recently added tasks
 
-## Deadline Calendar
+### Deadline Calendar (Version 2.0)
+- Monthly calendar view
+- Deadline indicators
+- Task completion indicators
 
-A simple calendar will display task activity.
+**Calendar indicators:**
+- Red dot — Task deadline
+- Green dot — Task completed
+- No dot — No task activity
 
-- **Red dot** → A task is due on that date
-- **Green dot** → A task was completed on that date
-- **No dot** → Nothing happened on that date
-
-There will be **no notification system**.
+*No notification system is included in the project scope.*
 
 ---
 
-# API Structure
+## API Documentation
 
-## Authentication
+All endpoints use the `/api` base path.
 
-| Method | Endpoint             | Description                    |
-| ------ | -------------------- | ------------------------------ |
-| POST   | `/api/auth/register` | Register a new user            |
-| POST   | `/api/auth/login`    | Login user                     |
-| GET    | `/api/auth/me`       | Get current authenticated user |
+### Authentication
 
-## Tasks
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | `/api/auth/register` | Register a new user | Public |
+| POST | `/api/auth/login` | Login user | Public |
+| GET | `/api/auth/me` | Get current user | Protected |
 
-| Method | Endpoint         | Description       |
-| ------ | ---------------- | ----------------- |
-| POST   | `/api/tasks`     | Create a task     |
-| GET    | `/api/tasks`     | Get user's tasks  |
-| GET    | `/api/tasks/:id` | Get a single task |
-| PATCH  | `/api/tasks/:id` | Update a task     |
-| DELETE | `/api/tasks/:id` | Delete a task     |
+### Task Management
 
-Additional functionality such as search, filtering, sorting, and pagination will be implemented using query parameters.
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | `/api/tasks` | Create a task | Protected |
+| GET | `/api/tasks` | Get all user's tasks | Protected |
+| GET | `/api/tasks/:id` | Get a specific task | Protected |
+| PATCH | `/api/tasks/:id` | Update a task | Protected |
+| DELETE | `/api/tasks/:id` | Delete a task | Protected |
+
+### Query Parameters
+
+Task listing supports query parameters for organizing tasks.
+
+| Parameter | Example | Purpose |
+|---|---|---|
+| search | `?search=project` | Search tasks |
+| priority | `?priority=high` | Filter by priority |
+| completed | `?completed=false` | Filter by status |
+| sort | `?sort=deadline` | Sort tasks |
+| page | `?page=2` | Page number |
+| limit | `?limit=10` | Results per page |
 
 Example:
 
-```text
-GET /api/tasks?search=project
-GET /api/tasks?priority=high
-GET /api/tasks?completed=false
-GET /api/tasks?sort=deadline
-GET /api/tasks?page=2&limit=10
+```http
+GET /api/tasks?priority=high&completed=false
 ```
 
 ---
 
-# Architecture
+## Project Architecture
 
-The backend follows the MVC architecture.
+The backend follows the **Model-View-Controller (MVC)** architectural pattern.
 
 ```text
 React Frontend
-      ↓
-   API Request
-      ↓
- Express Route
-      ↓
+      |
+      v
+  API Request
+      |
+      v
+ Express Routes
+      |
+      v
  Authentication Middleware
-      ↓
-   Controller
-      ↓
- Mongoose Model
-      ↓
-   MongoDB
-      ↓
-   Response
-      ↓
+      |
+      v
+   Controllers
+      |
+      v
+  Mongoose Models
+      |
+      v
+    MongoDB
+      |
+      v
+  API Response
+      |
+      v
  React Frontend
 ```
 
-### Routes
+### Backend Components
 
-Routes define API endpoints and direct requests to the appropriate controllers.
-
-### Controllers
-
-Controllers contain application and business logic.
-
-### Models
-
-Models define MongoDB document structures and handle database interaction through Mongoose.
-
-### Middleware
-
-Middleware handles tasks such as authentication and request processing.
+- **Models:** Define database schemas and interact with MongoDB through Mongoose.
+- **Views:** The React frontend handles the user interface.
+- **Controllers:** Handle application logic and API requests.
+- **Routes:** Define API endpoints and connect them to controllers.
+- **Middleware:** Handle authentication, authorization, and request processing.
 
 ---
 
-# Backend Structure
+## Database Models
 
-```text
-backend/
-│
-├── controllers/
-│   ├── authController.js
-│   └── taskController.js
-│
-├── models/
-│   ├── User.js
-│   └── Task.js
-│
-├── routes/
-│   ├── authRoutes.js
-│   └── taskRoutes.js
-│
-├── middleware/
-│   └── authMiddleware.js
-│
-├── config/
-│   └── db.js
-│
-├── .env
-├── app.js
-└── package.json
-```
+### User Model
 
----
+| Field | Description |
+|---|---|
+| name | User's name |
+| email | Unique email address |
+| password | Bcrypt-hashed password |
+| createdAt | Account creation timestamp |
+| updatedAt | Last update timestamp |
 
-# User Model
+### Task Model
 
-The User model will contain information such as:
-
-```text
-name
-email
-password
-createdAt
-updatedAt
-```
-
-Passwords will never be stored as plain text.
-
-They will be hashed using **bcrypt** before being stored in MongoDB.
+| Field | Description |
+|---|---|
+| title | Task title |
+| description | Task description |
+| priority | Low, Medium, or High |
+| category | Task category |
+| completed | Completion status |
+| deadline | Task deadline |
+| completedAt | Task completion timestamp |
+| userId | Owner of the task |
+| createdAt | Task creation timestamp |
+| updatedAt | Last update timestamp |
 
 ---
 
-# Task Model
+## Authentication & Authorization
 
-The Task model will contain:
-
-```text
-title
-description
-priority
-category
-completed
-deadline
-completedAt
-userId
-createdAt
-updatedAt
-```
-
-`userId` identifies the owner of the task.
-
-This ensures that users can only access and modify their own tasks.
-
----
-
-# Authentication Flow
-
-## Registration
+### Authentication Flow
 
 ```text
-User
- ↓
-Registration Request
- ↓
-Validate Data
- ↓
-Hash Password
- ↓
-Create User
- ↓
-MongoDB
-```
-
-## Login
-
-```text
-User
- ↓
-Login Request
- ↓
-Find User
- ↓
-Compare Password
- ↓
+User Login
+    |
+    v
+Find User in MongoDB
+    |
+    v
+Compare Password using bcrypt
+    |
+    v
 Generate JWT
- ↓
-Return Token
+    |
+    v
+Return Authentication Token
 ```
 
-## Protected Request
+### Protected Request Flow
 
 ```text
-Client
- ↓
-JWT
- ↓
+Client Request
+    |
+    v
+JWT Bearer Token
+    |
+    v
 Authentication Middleware
- ↓
+    |
+    v
 Verify JWT
- ↓
+    |
+    v
 Identify User
- ↓
-Controller
- ↓
-MongoDB
+    |
+    v
+Execute Controller
+    |
+    v
+Return Response
 ```
 
----
+### User Authorization
 
-# Authorization
+Every task is associated with its owner through `userId`.
 
-Authentication determines:
+This ensures that users can only access, update, or delete their own tasks.
 
-> Who are you?
-
-Authorization determines:
-
-> Are you allowed to access this resource?
-
-For example, if User A attempts to update User B's task:
-
-```text
-User A
- ↓
-JWT Verified
- ↓
-User Identified
- ↓
-Task Ownership Checked
- ↓
-Ownership Doesn't Match
- ↓
-403 Forbidden
-```
+Unauthorized access attempts are rejected by the backend.
 
 ---
 
-# Development Roadmap
-
-## Goal 1 — Backend
-
-### Phase 1 — Backend Foundation ( Done )
-
-- [ ] Initialize Node.js
-- [ ] Install dependencies
-- [ ] Create backend structure
-- [ ] Configure Express
-- [ ] Configure environment variables
-
-### Phase 2 — MongoDB & Mongoose ( Done )
-
-- [ ] Connect MongoDB
-- [ ] Configure Mongoose
-- [ ] Create User model
-- [ ] Understand schemas and models
-
-### Phase 3 — Registration ( Done )
-
-- [ ] Registration API
-- [ ] Validation
-- [ ] Duplicate email handling
-- [ ] Password hashing
-- [ ] Postman testing
-
-### Phase 4 — Login & JWT ( Done )
-
-- [ ] Login API
-- [ ] Password comparison
-- [ ] JWT generation
-- [ ] JWT expiration
-
-### Phase 5 — Authentication Middleware ( Done )
-
-- [ ] Extract Bearer token
-- [ ] Verify JWT
-- [ ] Identify authenticated user
-- [ ] Protect routes
-
-### Phase 6 — Current User ( Done )
-
-- [ ] `/api/auth/me`
-- [ ] Return authenticated user's information
-
-### Phase 7 — Task Model ( Done )
-
-- [ ] Create Task schema
-- [ ] Add validation
-- [ ] Add user relationship
-- [ ] Add timestamps
-
-### Phase 8 — Task CRUD ( Done )
-
-- [ ] Create task
-- [ ] Get tasks
-- [ ] Get single task
-- [ ] Update task
-- [ ] Delete task
-
-### Phase 9 — Authorization ( Done )
-
-- [ ] Verify task ownership
-- [ ] Prevent unauthorized access
-- [ ] Prevent unauthorized updates
-- [ ] Prevent unauthorized deletion
-
-### Phase 10 — Completion ( Later )
-
-- [ ] Complete task
-- [ ] Reopen task
-- [ ] Track `completedAt`
-
-### Phase 11 — Search, Filter & Sort
-
-- [ ] Search
-- [ ] priority filtering (Done)
-- [ ] access filtering (Done)
-- [ ] status filtering (Done)
-- [ ] Sorting
-
-### Phase 12 — Pagination ( Skip )
-
-- [ ] Page
-- [ ] Limit
-- [ ] Skip
-- [ ] Total pages
-
-### Phase 13 — Dashboard API ( Done )
-
-- [ ] Task statistics
-- [ ] Completed count
-- [ ] Pending count
-- [ ] Overdue count
-- [ ] Recently added tasks
-
-### Phase 14 — Calendar Data ( version 2 )
-
-- [ ] Deadline dates
-- [ ] Completion dates
-- [ ] Calendar API/data logic
-
-### Phase 15 — Error Handling ( Done )
-
-- [ ] Validation errors
-- [ ] Authentication errors
-- [ ] Authorization errors
-- [ ] Not-found errors
-- [ ] Server errors
-
-### Phase 16 — Security & Cleanup ( Done )
-
-- [ ] Protect environment variables
-- [ ] Secure password handling
-- [ ] Validate requests
-- [ ] Configure CORS ??
-- [ ] Clean MVC structure
-
-### Phase 17 — Complete Postman Testing ( Done )
-
-- [ ] Test authentication
-- [ ] Test CRUD
-- [ ] Test authorization
-- [ ] Test filters
-- [ ] Test pagination
-- [ ] Test error cases
-
-**Backend completion condition:**
-
-> The entire REST API works independently and is fully tested through Postman.
-
----
-
-# Goal 2 — Frontend
-
-After the backend is complete, the React frontend will be added.
-
-### Phase 1 — React Setup
-
-- [ ] Create React + Vite application
-- [ ] Configure React Router
-- [ ] Create frontend structure
-- [ ] Create API service
-
-### Phase 2 — Authentication UI
-
-- [ ] Register page
-- [ ] Login page
-- [ ] Authentication state
-- [ ] JWT handling
-- [ ] Logout
-- [ ] Protected routes
-
-### Phase 3 — Task Management UI
-
-- [ ] Dashboard
-- [ ] Task list
-- [ ] Task cards
-- [ ] Create task
-- [ ] Edit task
-- [ ] Delete task
-- [ ] Complete task
-- [ ] Task details
-
-### Phase 4 — Task Organization
-
-- [ ] Search
-- [ ] Filters
-- [ ] Sorting
-- [ ] Pagination
-- [ ] Categories
-- [ ] Priority
-
-### Phase 5 — Dashboard
-
-- [ ] Statistics cards
-- [ ] Recently added tasks
-- [ ] Pending tasks
-- [ ] Completed tasks
-- [ ] Overdue tasks
-
-### Phase 6 — Calendar ( version 2.0 )
-
-- [ ] Monthly calendar
-- [ ] Deadline indicators
-- [ ] Completion indicators
-
-### Phase 7 — Final Integration
-
-- [ ] Connect all frontend features to API
-- [ ] Loading states
-- [ ] Error handling
-- [ ] Empty states
-- [ ] Responsive design
-- [ ] Final testing
-- [ ] Deployment
-
----
-
-# Final Project Architecture
+## Project Structure
 
 ```text
 task-management/
-│
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── vite.config.js
-│
-└── backend/
-    ├── controllers/
-    ├── models/
-    ├── routes/
-    ├── middleware/
-    ├── config/
-    ├── .env
-    ├── app.js
-    └── package.json
+|
+|-- frontend/
+|   |-- src/
+|   |-- public/
+|   |-- package.json
+|   |-- vite.config.js
+|
+|-- backend/
+|   |-- config/
+|   |   |-- db.js
+|   |
+|   |-- controllers/
+|   |   |-- authController.js
+|   |   |-- taskController.js
+|   |
+|   |-- middleware/
+|   |   |-- authMiddleware.js
+|   |
+|   |-- models/
+|   |   |-- User.js
+|   |   |-- Task.js
+|   |
+|   |-- routes/
+|   |   |-- authRoutes.js
+|   |   |-- taskRoutes.js
+|   |
+|   |-- .env
+|   |-- app.js
+|   |-- package.json
+|
+|-- README.md
 ```
 
 ---
 
-# Project Objective
+## Development Progress
 
-The primary objective of this project is not just to create a task management application, but to gain practical experience building a **real full-stack application from the ground up**.
+### Goal 1 — Backend Development
 
-The project will be developed in two major stages:
+| Phase | Description | Status |
+|---|---|---|
+| 1 | Backend Foundation | Completed |
+| 2 | MongoDB & Mongoose | Completed |
+| 3 | User Registration | Completed |
+| 4 | Login & JWT | Completed |
+| 5 | Authentication Middleware | Completed |
+| 6 | Current User API | Completed |
+| 7 | Task Model | Completed |
+| 8 | Task CRUD Operations | Completed |
+| 9 | User Authorization | Completed |
+| 10 | Task Completion & Reopening | Planned |
+| 11 | Search, Filter & Sort | In Progress |
+| 12 | Pagination | Skipped |
+| 13 | Dashboard API | Completed |
+| 14 | Calendar API | Version 2.0 |
+| 15 | Error Handling | Completed |
+| 16 | Security & Cleanup | Completed |
+| 17 | Postman Testing | Completed |
+
+### Goal 2 — Frontend Development
+
+| Phase | Description | Status |
+|---|---|---|
+| 1 | React & Vite Setup | Pending |
+| 2 | Authentication UI | Pending |
+| 3 | Task Management UI | Pending |
+| 4 | Search, Filters & Sorting | Pending |
+| 5 | Dashboard UI | Pending |
+| 6 | Calendar Integration | Version 2.0 |
+| 7 | Final Integration & Deployment | Pending |
+
+---
+
+## Future Improvements
+
+- Complete task status management.
+- Implement remaining search and sorting functionality.
+- Build a responsive React dashboard.
+- Integrate the frontend with the REST API.
+- Implement a monthly task calendar.
+- Improve UI/UX and loading states.
+- Deploy the complete application.
+
+---
+
+## Project Objective
+
+The objective of this project is to gain practical experience in developing a complete full-stack application from the ground up.
+
+Rather than starting directly with the frontend, the project prioritizes backend development to understand how real-world applications handle:
+
+- REST API design
+- MVC architecture
+- Database management
+- Authentication and authorization
+- CRUD operations
+- Error handling
+- API testing
+- Frontend-backend integration
+
+**Development Approach:**
 
 ```text
-GOAL 1
-Backend
-   ↓
-REST API
-   ↓
-MongoDB
-   ↓
-Authentication
-   ↓
-Authorization
-   ↓
-Task Management
-   ↓
-Postman Testing
-   ↓
-Backend Complete
+GOAL 1 — BACKEND
+Node.js + Express.js
+        |
+        v
+   REST API
+        |
+        v
+     MongoDB
+        |
+        v
+ Authentication
+        |
+        v
+  Authorization
+        |
+        v
+  Task Management
+        |
+        v
+  Postman Testing
+        |
+        v
+  Backend Complete
 
-          ↓
+        |
 
-GOAL 2
-React Frontend
-   ↓
-API Integration
-   ↓
-Authentication UI
-   ↓
-Task Management UI
-   ↓
-Dashboard
-   ↓
-Calendar
-   ↓
-Complete Application
+        v
+
+GOAL 2 — FRONTEND
+    React + Vite
+        |
+        v
+ Authentication UI
+        |
+        v
+ Task Management UI
+        |
+        v
+     Dashboard
+        |
+        v
+ Calendar Integration
+        |
+        v
+  Complete Application
 ```
+
+---
+
+**Built as a learning project to understand and implement real-world full-stack development concepts.**
